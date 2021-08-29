@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Dati Edutech</title>
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <!-- <script src="angular copy.js"></script> -->
+    <script src="main.js"></script>
+
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+<link href="https://test.elearning-center.it/Resources/css/fontawesome/all.css?v=9" rel="stylesheet">
+
+</head>
+
+<body ng-app="myapp"  ng-controller="myctrl">
+    <div>
+        <h1>LEGGERE JSON</h1>
+        <h2>Dettagli Versioni</h2>
+        <br>
+          
+        <div ng-if="isLoading">Caricamento in corso...</div>
+        <!-- <pre>{{tasks | json}}</pre> -->
+
+        <form>
+            <div class="form-check form-check-inline" >
+                <input class="form-check-input" type="checkbox" value="" id="check1">
+                <span class="fa fa-star"></span><label class="form-check-label" for="check1">
+                  New
+                </label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" value="" id="check2">
+                <span class="fa fa-tools"></span><label class="form-check-label" for="check2">
+                  Fixed
+                </label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" value="" id="check3">
+                <span class="fab fa-dev"></span></span><label class="form-check-label fa-solid fa-forward-step" for="check3">
+                  Updated
+                </label>
+              </div>
+            <div class="form-group form-check-inline">
+
+                <input type="text" placeholder="Search...." name="search" ng-model="searchFilter">
+            </div>
+            <!-- <button type="submit" class="btn btn-info">Invio</button> -->
+        </form>
+        <fieldset>
+        <form>
+            <!-- <label for="check1"><strong>Anno</strong></label><br>
+            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+              <button class="addfields" ng-repeat="year()">TEST</button>
+                <label class="btn btn-light active">
+                  <input type="radio" name="options" id="option1" autocomplete="off" checked> 2021
+                </label>
+                <span ng-repeat="anno in years">
+                  <button title="{{anno}}"
+                    	
+                    ng-click="filtra(anno);"
+                    ></button>
+                </span>
+                
+              </div> -->
+        
+    <div class="btn-group btn-group-toggle">
+      <button class="addfields" ng-click="sortYearMonth(t.anno)" ng-repeat="t in tasks | rmDupMonthYear : 'anno' | orderBy:'anno'">
+          {{t.anno}}
+      </button>
+    </div>
+
+    <br><label for="check1"><strong>Mese</strong></label><br>
+    <div class="btn-group btn-group-toggle">
+      <button class="addfields" ng-click="sortYearMonth('')">  ALL  </button>
+      <button class="addfields" ng-click="sortYearMonth(t.mese)"ng-repeat="t in tasks | rmDupMonthYear : 'mese' | orderBy:'mese' ">
+          <span  ng-if="t.mese =='01'"> Gennaio </span>
+          <span  ng-if="t.mese =='02'"> Febbraio </span>
+          <span  ng-if="t.mese =='03'"> Marzo </span>
+          <span  ng-if="t.mese =='04'"> Aprile </span>
+          <span  ng-if="t.mese =='05'"> Maggio </span>
+          <span  ng-if="t.mese =='06'"> Giugno </span>
+          <span  ng-if="t.mese =='07'"> Luglio </span>
+          <span  ng-if="t.mese =='08'"> Agosto </span>
+          <span  ng-if="t.mese =='09'"> Settembre </span>
+          <span  ng-if="t.mese =='10'"> Ottobre </span>
+          <span  ng-if="t.mese =='11'"> Novembre </span>
+          <span  ng-if="t.mese =='12'"> Dicembre </span>
+      </button>
+    </div>
+
+<!--               
+            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                <label class="btn btn-light active">
+                  <input type="radio" name="options" id="option1" autocomplete="off" checked> All
+                </label>
+                <label class="btn btn-light">
+                  <input type="radio" name="options" id="option2" autocomplete="off"> Gennaio
+                </label>
+                <label class="btn btn-light">
+                  <input type="radio" name="options" id="option3" autocomplete="off"> Febbraio
+                </label>
+                <label class="btn btn-light">
+                    <input type="radio" name="options" id="option3" autocomplete="off"> Marzo
+                  </label>
+                  <label class="btn btn-light">
+                    <input type="radio" name="options" id="option3" autocomplete="off"> Aprile
+                  </label>
+                  <label class="btn btn-light">
+                    <input type="radio" name="options" id="option3" autocomplete="off"> Maggio
+                  </label>
+                  <label class="btn btn-light">
+                    <input type="radio" name="options" id="option3" autocomplete="off"> Giugno
+                  </label>
+                  <label class="btn btn-light">
+                    <input type="radio" name="options" id="option3" autocomplete="off"> Luglio
+                  </label>
+                  <label class="btn btn-light">
+                    <input type="radio" name="options" id="option3" autocomplete="off"> Agosto
+                  </label>
+                  <label class="btn btn-light">
+                    <input type="radio" name="options" id="option3" autocomplete="off"> Settembre
+                  </label>
+                  <label class="btn btn-light">
+                    <input type="radio" name="options" id="option3" autocomplete="off"> Ottobre
+                  </label>
+                  <label class="btn btn-light">
+                    <input type="radio" name="options" id="option3" autocomplete="off"> Novembre
+                  </label>
+                  <label class="btn btn-light">
+                    <input type="radio" name="options" id="option3" autocomplete="off"> Dicembre
+                  </label>
+              </div> -->
+
+        </form>
+    </fieldset>
+        <br>
+
+        <table class="table table-hover">
+            <tr ng-repeat="t in tasks | filter: taskSort | filter: searchFilter">
+                <td>
+                  <i class="fa fa-star" ng-if="t.tipo =='New'"></i>
+                  <i class="fa fa-tools" ng-if="t.tipo =='Fixed'"></i>
+                  <i class="fab fa-dev" ng-if="t.tipo =='Updated'"></i>
+                </td>
+                <td>{{ t.cod }}</td>
+                <td>{{ t.data }}</td>
+                <td>{{ t.descrizione }}</td>
+                
+            </tr>
+
+        </table>
+
+
+    </div>
+
+</body>
+</html>
