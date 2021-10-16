@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Dati Edutech</title>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+  <!-- <script src="angular copy.js"></script> -->
+  <script src="main.js"></script>
+
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+  <link href="https://test.elearning-center.it/Resources/css/fontawesome/all.css?v=9" rel="stylesheet">
+  <link href="style.css" type="text/css" rel="stylesheet">
+
+  <script>
+    // When the user scrolls the page, execute myFunction
+    window.onscroll = function () { myFunction() };
+
+    // Get the header
+    var header = document.getElementById("myHeader");
+
+    // Get the offset position of the navbar
+    var sticky = header.offsetTop;
+
+    // Add the sticky class to the header when you reach its scroll position. Remove "sticky" when you leave the scroll position
+    function myFunction() {
+      if (window.pageYOffset > sticky) {
+        header.classList.add("sticky");
+      } else {
+        header.classList.remove("sticky");
+      }
+    }
+  </script>
+</head>
+
+<body ng-app="myapp" ng-controller="myctrl" class="UsrType18">
+
+  <div id="header" class="">
+    <!-- toolbar OK: V3.0b8-->
+    <div id="toolbar">
+      <div class="page-width">
+        <div class="containerLogo">
+
+          <a href="/Dati Edutech2/Style/44_Logo.png"><img src="/Dati Edutech2/Style/44_Logo.png" alt="Home Page"
+              title="Home Page" class="logo"></a>
+        </div>
+        <div id="tools">
+
+
+        </div>
+      </div>
+    </div>
+    <!-- end toolbar -->
+  </div>
+  <div id="page-box">
+    <div id="container" class="page-width shadowed bottom-rounded">
+      <div id="content">
+        <div class="DIV_MP_Content ">
+          <div class="row">
+            <div class="column"><h3>Dettagli Versioni</h3></div>
+            <div class="column"> <h5 ng-repeat="b in tasks | limitTo : 1" style="color: #e99002;"> {{b.data}} - {{b.cod}}</h5></div>
+          </div>
+          
+         
+          <br>
+
+          <div ng-if="isLoading">Caricamento in corso...</div>
+          <!-- <pre>{{tasks | json}}</pre> -->
+
+
+
+          <form>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="checkbox" value="" id="check1" ng-model="filterStatus.New">
+              <span class="fa fa-star"></span><label class="form-check-label" for="check1">
+                New
+              </label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="checkbox" value="" id="check2" ng-model="filterStatus.Fixed">
+              <span class="fa fa-tools"></span><label class="form-check-label" for="check2">
+                Fixed
+              </label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="checkbox" value="" id="check3" ng-model="filterStatus.Updated">
+              <span class="fab fa-dev"></span></span><label class="form-check-label" for="check3">
+                Updated
+              </label>
+            </div>
+            <div class="form-group form-check-inline">
+
+              <input type="text" placeholder="Search...." name="search" ng-model="searchFilter">
+
+              
+            </div>
+          </form>
+          <fieldset>
+            <form>
+
+              <div class="e">
+                <label for="check1"><strong>Anno</strong></label><br>
+                <button class="addfields btn btn-light" ng-click="ClearYearFilter()"> ALL </button>
+                <button ng-repeat="t in tasks | rmDupMonthYear : 'anno'" class="addfields btn {{changeCol(t.anno)}}"
+                  ng-click="ToogleAnni(t.anno)">
+                  {{t.anno}}
+                  <!-- sortYearMonth -->
+                </button>
+              </div>
+              <br><label for="check2"><strong>Mese</strong></label><br>
+              <div class="">
+                <button class="addfields btn btn-light" ng-click="ClearMonthFilter()"> ALL </button>
+
+                <button class="addfields btn {{changeColMese(m)}}" ng-click="ToogleMesi(m)"
+                  ng-repeat="m in listaMesi | orderBy: mese ">
+
+                  <span ng-if="m =='01'"> Gennaio </span>
+                  <span ng-if="m =='02'"> Febbraio </span>
+                  <span ng-if="m =='03'"> Marzo </span>
+                  <span ng-if="m =='04'"> Aprile </span>
+                  <span ng-if="m =='05'"> Maggio </span>
+                  <span ng-if="m =='06'"> Giugno </span>
+                  <span ng-if="m =='07'"> Luglio </span>
+                  <span ng-if="m =='08'"> Agosto </span>
+                  <span ng-if="m =='09'"> Settembre </span>
+                  <span ng-if="m =='10'"> Ottobre </span>
+                  <span ng-if="m =='11'"> Novembre </span>
+                  <span ng-if="m =='12'"> Dicembre </span>
+                </button>
+              </div>
+            </form>
+          </fieldset>
+          <br>
+          <span ng-repeat="elemento in listaElementi" ng-click="ToogleCommunityCourseTagFilterAdm(elemento)"
+            class="{{listaElementiFiltrati.indexOf(tagSel) > -1 ? 'selected' : ''}}">{{tagSel}}</span>
+          <table class="table table-hover">
+            <tr>
+              <th> </th>
+              <th>Codice</th>
+              <th ng-click="changeSorting('anno')">Data<i class="fas fa-caret-down"></i></th>
+              <th ng-click="changeSorting('descrizione')">Descrizione<i class="fas fa-caret-down"></i></th>
+            </tr>
+            <tr
+              ng-repeat="t in tasks | orderBy:sort.column:sort.descending| filter: searchFilter | filterForElements : listaAnni | filterForMonths: listaMesiFilter | filterStatus1: filterStatus track by $index" >
+
+              <td>
+                <i class="fa fa-star" ng-if="t.tipo =='New'"></i>
+                <i class="fa fa-tools" ng-if="t.tipo =='Fixed'"></i>
+                <i class="fab fa-dev" ng-if="t.tipo =='Updated'"></i>
+              </td>
+              <td>{{ t.cod }}</td>
+              <td>{{ t.data }}</td>
+              <td>{{ t.descrizione }}</td>
+
+            </tr>
+
+          </table>
+          <!-- 
+    <table class="table table-hover">
+      <tr
+        ng-repeat="t in tasks | filter: taskSort | filter: searchFilter | filter:filterByStatus | filterForElements : listaAnni">
+        <td>
+          <i class="fa fa-star" ng-if="t.tipo =='New'"></i>
+          <i class="fa fa-tools" ng-if="t.tipo =='Fixed'"></i>
+          <i class="fab fa-dev" ng-if="t.tipo =='Updated'"></i>
+        </td>
+        <td>{{ t.cod }}</td>
+        <td>{{ t.data }}</td>
+        <td>{{ t.descrizione }}</td>
+
+      </tr>
+
+    </table> -->
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+  <div id="cFooter">
+    <div class="container">
+
+      <div align="center" class="chiusura">
+        <ul class="Logos">
+
+        </ul>
+        <div class="footer_text">
+          <div style="text-align: center;">
+            <span style="font-size: 13px;"><strong>Edutech Srl</strong>
+              &nbsp;-&nbsp; tel. +39 0461 1865865 &nbsp;-&nbsp; fax +39 0461 1865866 -
+              web: <a href="http://www.edutech.it" target="_blank">www.edutech.it</a> - e-mail:
+              <a href="mailto:info@edutech.it">info@edutech.it</a><br>
+              posta certificata:
+              <a href="mailto:amministrazione@pec.edutech.it">amministrazione@pec.edutech.it</a><br>
+              C.F. e P. IVA: 02160210221 &nbsp;-&nbsp; REA n. TN - 20412</span>
+            <span style="font-size: 13px;">
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>
