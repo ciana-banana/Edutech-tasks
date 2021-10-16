@@ -1,8 +1,6 @@
 # Edutech-tasks
 
-E' la pagina di Edutech dove mettere le tasks e aggiornarle. Collegata ad un JSON. 
+Edutech's page where they add and update tasks. It's connected to a JSON file.
 
+Link of the original page, which will be substituted with the current code: https://test.elearning-center.it/modules/PlatformVersion/CurrentVersion.aspx
 
-Link originale che verrà sostituito: https://test.elearning-center.it/modules/PlatformVersion/CurrentVersion.aspx
-
-- DA FINIRE - 
