@@ -1,4 +1,4 @@
-# Edutech-tasks
+# Edutech task page
 
 Edutech's page where they add and update tasks. It's connected to a JSON file.
 
